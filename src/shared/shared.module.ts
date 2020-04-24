@@ -10,7 +10,7 @@ import { ConfigService } from "./services/config.service";
       useFactory: async (configService: ConfigService) => ({
         secret: "fakesecret",
         signOptions: {
-          expiresIn: "1h"
+          expiresIn: "8h"
        },
       }),
     }),

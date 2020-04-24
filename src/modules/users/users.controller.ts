@@ -1,12 +1,15 @@
-import { Controller, Get, Req, HttpCode, Post, Put, Res, Redirect, Param, Body, Delete, HttpStatus, Inject } from '@nestjs/common'
+import { Controller, Get, Req, HttpCode, Post, Put, Res, Redirect, Param, Body, Delete, HttpStatus, Inject, UseFilters, HttpException, NotFoundException, UsePipes, ValidationPipe } from '@nestjs/common'
 import { Request, Response } from 'express'
 
 import { User } from '../database/entities/user.entity'
 import { ActiveUserDto } from './dto/active-user.dto'
 import { CreateUserDto } from './dto/create-user-dto'
 import { UsersService } from './users.service'
+import { HttpExceptionFilter } from 'src/filters/http-exception.filter'
+import { JoiValidationPipe } from '../../pipes/joi-validation.pipe'
 
 
+@UseFilters(HttpExceptionFilter)
 @Controller('users')
 export class UsersController {
 
@@ -33,7 +36,8 @@ export class UsersController {
 
   @Post()
   @HttpCode(201)
-  create(@Body() createUserDto: CreateUserDto) {
+  // @UsePipes(new ValidationPipe(createUserDto))
+  create(@Body(JoiValidationPipe) createUserDto: CreateUserDto) {
     const user = new User()
     user.name = createUserDto.name
     user.age = createUserDto.age

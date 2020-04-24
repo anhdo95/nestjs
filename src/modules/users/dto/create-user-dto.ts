@@ -1,4 +1,9 @@
+import { IsString, IsInt } from 'class-validator'
+
 export class CreateUserDto {
-  constructor(public name: string, public age: number) {
-  }
+  @IsString()
+  name: string
+
+  @IsInt()
+  age: number
 }

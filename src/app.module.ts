@@ -7,9 +7,9 @@ import { AppService } from './app.service';
 
 import { IsAuthMiddleware } from './middlewares/is-auth.middleware';
 
-import { UsersController } from './modules/users/users.controller';
 import { SharedModule } from './shared/shared.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { UsersController } from './modules/users/users.controller';
 
 @Module({
   imports: [SharedModule, UsersModule, AuthModule],
@@ -21,6 +21,7 @@ export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(IsAuthMiddleware)
+      .exclude('auth')
       .forRoutes(UsersController)
   }
 }
