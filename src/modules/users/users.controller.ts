@@ -12,6 +12,7 @@ import {
   ParseIntPipe,
   UsePipes,
   ValidationPipe,
+  UseInterceptors,
 } from '@nestjs/common';
 
 import { User } from '../database/entities/user.entity';
@@ -20,9 +21,11 @@ import { CreateUserDto } from './dto/create-user-dto';
 import { UsersService } from './users.service';
 import { HttpExceptionFilter } from 'src/filters/http-exception.filter';
 import { Roles } from 'src/decorators/roles.decorator';
+import { TransformInterceptor } from 'src/interceptors/transform.interceptor';
 
-@UseFilters(HttpExceptionFilter)
 @Controller('users')
+@UseFilters(HttpExceptionFilter)
+@UseInterceptors(TransformInterceptor)
 export class UsersController {
   constructor(private usersService: UsersService) {}
 
@@ -33,6 +36,7 @@ export class UsersController {
   }
 
   @Get('active')
+  @Roles('SuperAdmin')
   findActiveUsers(): ActiveUserDto[] {
     return this.usersService.findActiveUsers();
   }
@@ -42,6 +46,7 @@ export class UsersController {
   getDocs() {}
 
   @Get(':id')
+  @Roles('SuperAdmin')
   findById(@Param('id', ParseIntPipe) id: number) {
     return this.usersService.findById(id);
   }
@@ -49,6 +54,7 @@ export class UsersController {
   @Post()
   @HttpCode(201)
   @UsePipes(ValidationPipe)
+  @Roles('SuperAdmin')
   create(@Body() createUserDto: CreateUserDto) {
     const user = new User();
     user.name = createUserDto.name;
@@ -58,11 +64,13 @@ export class UsersController {
   }
 
   @Put(':id')
+  @Roles('SuperAdmin')
   update(@Param('id') id: number, @Body() user: User) {
     this.usersService.update(id, user);
   }
 
   @Delete(':id')
+  @Roles('SuperAdmin')
   delete(@Param('id') id: string) {
     this.usersService.delete(id);
 
