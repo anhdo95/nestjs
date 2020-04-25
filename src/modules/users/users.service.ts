@@ -9,11 +9,13 @@ export class UsersService {
     name: 'Richard Do',
     age: 20,
     active: true,
+    roles: ['SuperAdmin']
   }, {
     id: 2,
     name: 'John Doe',
     age: 27,
     active: false,
+    roles: ['Executor']
   }]
 
   findAll() {
