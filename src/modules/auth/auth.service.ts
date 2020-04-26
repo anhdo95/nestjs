@@ -23,8 +23,4 @@ export class AuthService {
 
     throw new UnauthorizedException('Your account is invalid')
   }
-
-  logout(userId: number, name: string) {
-    return false
-  }
 }

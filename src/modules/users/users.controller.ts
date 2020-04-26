@@ -22,6 +22,7 @@ import { UsersService } from './users.service';
 import { HttpExceptionFilter } from 'src/filters/http-exception.filter';
 import { Roles } from 'src/decorators/roles.decorator';
 import { TransformInterceptor } from 'src/interceptors/transform.interceptor';
+import { AuthUser } from 'src/decorators/auth-user.decorator';
 
 @Controller('users')
 @UseFilters(HttpExceptionFilter)
@@ -44,6 +45,11 @@ export class UsersController {
   @Get('docs')
   @Redirect('https://docs.nestjs.com', 302)
   getDocs() {}
+
+  @Get('profile')
+  getProfile(@AuthUser() user) {
+    return user
+  }
 
   @Get(':id')
   @Roles('SuperAdmin')
