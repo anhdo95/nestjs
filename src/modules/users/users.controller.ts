@@ -47,7 +47,7 @@ export class UsersController {
   getDocs() {}
 
   @Get('profile')
-  getProfile(@AuthUser() user) {
+  getProfile(@AuthUser(ValidationPipe) user: User) {
     return user
   }
 
