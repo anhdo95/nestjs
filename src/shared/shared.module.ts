@@ -6,13 +6,16 @@ import { ConfigService } from "./services/config.service";
 @Module({
   imports: [
     JwtModule.registerAsync({
-      // inject: [ConfigService],
-      useFactory: async (configService: ConfigService) => ({
-        secret: "fakesecret",
-        signOptions: {
-          expiresIn: "8h"
-       },
-      }),
+      inject: [ConfigService],
+      useFactory: async (configService: ConfigService) => {
+        console.log('configService', configService)
+        return {
+          secret: "fakesecret",
+          signOptions: {
+            expiresIn: "8h"
+          }
+        }
+      }
     }),
   ],
   exports: [JwtModule]

@@ -6,12 +6,14 @@ import { ActiveUserDto } from "./dto/active-user.dto";
 export class UsersService {
   private readonly users: User[] = [{
     id: 1,
+    username: 'richarddo',
     name: 'Richard Do',
     age: 20,
     active: true,
     roles: ['SuperAdmin']
   }, {
     id: 2,
+    username: 'johndoe',
     name: 'John Doe',
     age: 27,
     active: false,

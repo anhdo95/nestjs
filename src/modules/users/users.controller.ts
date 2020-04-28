@@ -13,6 +13,7 @@ import {
   UsePipes,
   ValidationPipe,
   UseInterceptors,
+  UseGuards,
 } from '@nestjs/common';
 
 import { User } from '../database/entities/user.entity';
@@ -23,10 +24,13 @@ import { HttpExceptionFilter } from 'src/filters/http-exception.filter';
 import { Roles } from 'src/decorators/roles.decorator';
 import { TransformInterceptor } from 'src/interceptors/transform.interceptor';
 import { AuthUser } from 'src/decorators/auth-user.decorator';
+import { JwtAuthGuard } from 'src/guards/jwt-auth.guard';
 
 @Controller('users')
 @UseFilters(HttpExceptionFilter)
+@UseGuards(JwtAuthGuard)
 @UseInterceptors(TransformInterceptor)
+
 export class UsersController {
   constructor(private usersService: UsersService) {}
 

@@ -5,5 +5,4 @@ export class ConfigService {
   get jwtExpirationTime(): string {
     return "1h";
   }
-
 }
