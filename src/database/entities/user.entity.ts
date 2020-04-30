@@ -1,6 +1,9 @@
-import { PrimaryGeneratedColumn, Column, Entity } from "typeorm"
+import { PrimaryGeneratedColumn, Column, Entity, CreateDateColumn, UpdateDateColumn, OneToMany, Unique } from "typeorm"
+import { Exclude } from "class-transformer"
+import { Role } from "./role.entity"
 
 @Entity()
+@Unique(['username'])
 export class User {
 
   @PrimaryGeneratedColumn()
@@ -10,6 +13,7 @@ export class User {
   username: string
 
   @Column()
+  @Exclude()
   password: string
 
   @Column()
@@ -21,6 +25,12 @@ export class User {
   @Column({ default: true })
   active: boolean
 
-  @Column({ default: 'MEMBER' })
-  role: string
+  @OneToMany(() => Role, role => role.type)
+  role: string[]
+
+  @CreateDateColumn()
+  createdAt: Date
+
+  @UpdateDateColumn()
+  updatedAt: Date
 }
