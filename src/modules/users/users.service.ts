@@ -39,6 +39,16 @@ export class UsersService {
     return user;
   }
 
+  /**
+   * Generate users
+   * for ((i = 0; i < 10; i++)); do \ 
+   * curl -X POST localhost:8081/users \
+   *  -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJpY2hhcmRkbyIsImlhdCI6MTU4ODE3ODIxNCwiZXhwIjoxNTg4MjY0NjE0fQ.YStXH2e01gVRp75S-eEE-aTF297-pgiCvBmi2zUI2wA" \
+   *  -H "Content-Type: application/json" \
+   *  -d '{ "username": "RichardDo'"$i"'", "password": "123456", "age": 20, "name": "Richard Do '"$i"'" }'; \
+   * done
+   * @param createUserDto 
+   */  
   create(createUserDto: CreateUserDto) {
     const user = this.userRepository.create(createUserDto);
 
