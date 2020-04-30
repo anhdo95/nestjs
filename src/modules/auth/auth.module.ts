@@ -7,6 +7,9 @@ import { LocalStrategy } from './local.strategy';
 import { JwtModule } from '@nestjs/jwt';
 import { jwtConfig } from 'src/shared/constants';
 import { JwtStrategy } from './jwt.strategy';
+import { UsersModule } from '../users/users.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { User } from 'src/database/entities/user.entity';
 
 @Module({
   controllers: [AuthController],
@@ -16,6 +19,7 @@ import { JwtStrategy } from './jwt.strategy';
       secret: jwtConfig.secret,
       signOptions: { expiresIn: '24h' },
     }),
+    UsersModule,
   ],
   providers: [AuthService, UsersService, LocalStrategy, JwtStrategy],
   exports: [AuthService],

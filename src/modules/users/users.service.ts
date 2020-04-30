@@ -1,72 +1,61 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
-import { User } from "../database/entities/user.entity";
-import { ActiveUserDto } from "./dto/active-user.dto";
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { User } from 'src/database/entities/user.entity';
+import { ActiveUserDto } from './dto/active-user.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { CreateUserDto } from './dto/create-user-dto';
 
 @Injectable()
 export class UsersService {
-  private readonly users: User[] = [{
-    id: 1,
-    username: 'richarddo',
-    password: '123456',
-    name: 'Richard Do',
-    age: 20,
-    active: true,
-    roles: ['SuperAdmin']
-  }, {
-    id: 2,
-    username: 'johndoe',
-    password: '123456',
-    name: 'John Doe',
-    age: 27,
-    active: false,
-    roles: ['Executor']
-  }]
+  constructor(
+    @InjectRepository(User) private userRepository: Repository<User>,
+  ) {}
 
   findAll() {
-    return this.users
+    return this.userRepository.find();
   }
 
   findActiveUsers() {
-    const users = this.users
-      .filter(user => user.active)
-      .map<ActiveUserDto>(user => new ActiveUserDto(user.id, user.name, user.age))
-
-    return users
+    return this.userRepository.find({ active: true });
   }
-  
-  findById(id: number | string) {
-    const user = this.users.find(user => user.id === Number(id))
+
+  async findById(id: number | string) {
+    const user = await this.userRepository.findOne(id);
 
     if (!user) {
-      throw new NotFoundException('The requested user is not found')
+      throw new NotFoundException('The requested user is not found');
     }
 
-    return user
+    return user;
   }
 
-  findByUsername(username: string) {
-    const user = this.users.find(user => user.username === username)
+  async findByUsername(username: string) {
+    const user = await this.userRepository.findOne({ username });
 
     if (!user) {
-      throw new NotFoundException('The requested user is not found')
+      throw new NotFoundException('The requested user is not found');
     }
 
-    return user
+    return user;
   }
 
-  create(user: User) {
-    user.id = this.users.length + 1
-    this.users.push(user)
+  create(createUserDto: CreateUserDto) {
+    const user = this.userRepository.create(createUserDto);
+
+    return this.userRepository.save(user);
   }
 
-  update(id: number | string, user: User) {
-    const userToUpdateIndex = this.users.findIndex(u => u.id === Number(id))
-    this.users[userToUpdateIndex] = user
+  update(id: number | string, updateUserDto: CreateUserDto) {
+    this.userRepository.update(id, updateUserDto);
+
+    return this.findById(id);
   }
 
-  delete(id: number | string) {
-    const userToDeleteIndex = this.users.findIndex(u => u.id === Number(id))
+  async delete(id: number | string) {
+    const user = await this.findById(id);
 
-    this.users.splice(userToDeleteIndex, 1)
+    this.userRepository.delete(id);
+
+    return user;
   }
 }

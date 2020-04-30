@@ -16,7 +16,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 
-import { User } from '../database/entities/user.entity';
+import { User } from 'src/database/entities/user.entity';
 import { ActiveUserDto } from './dto/active-user.dto';
 import { CreateUserDto } from './dto/create-user-dto';
 import { UsersService } from './users.service';
@@ -41,7 +41,7 @@ export class UsersController {
 
   @Get('active')
   @Roles('SuperAdmin')
-  findActiveUsers(): ActiveUserDto[] {
+  findActiveUsers() {
     return this.usersService.findActiveUsers();
   }
 
@@ -61,28 +61,22 @@ export class UsersController {
   }
 
   @Post()
-  @HttpCode(201)
   @UsePipes(ValidationPipe)
   @Roles('SuperAdmin')
   create(@Body() createUserDto: CreateUserDto) {
-    const user = new User();
-    user.name = createUserDto.name;
-    user.age = createUserDto.age;
-
-    this.usersService.create(user);
+    return this.usersService.create(createUserDto);
   }
 
   @Put(':id')
+  @UsePipes(ValidationPipe)
   @Roles('SuperAdmin')
-  update(@Param('id') id: number, @Body() user: User) {
-    this.usersService.update(id, user);
+  update(@Param('id') id: number, @Body() updateUserDto: CreateUserDto) {
+    return this.usersService.update(id, updateUserDto);
   }
 
   @Delete(':id')
   @Roles('SuperAdmin')
   delete(@Param('id') id: string) {
-    this.usersService.delete(id);
-
-    return true;
+    return this.usersService.delete(id);
   }
 }

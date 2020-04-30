@@ -8,7 +8,7 @@ export class AuthService {
   constructor(private usersService: UsersService, private jwtService: JwtService) {}
 
   async validateUser(username: string, pw: string) {
-    const found = this.usersService.findByUsername(username)
+    const found = await this.usersService.findByUsername(username)
     
     if (found && found.password === pw) {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
