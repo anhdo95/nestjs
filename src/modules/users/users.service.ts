@@ -7,6 +7,7 @@ export class UsersService {
   private readonly users: User[] = [{
     id: 1,
     username: 'richarddo',
+    password: '123456',
     name: 'Richard Do',
     age: 20,
     active: true,
@@ -14,6 +15,7 @@ export class UsersService {
   }, {
     id: 2,
     username: 'johndoe',
+    password: '123456',
     name: 'John Doe',
     age: 27,
     active: false,
@@ -34,6 +36,16 @@ export class UsersService {
   
   findById(id: number | string) {
     const user = this.users.find(user => user.id === Number(id))
+
+    if (!user) {
+      throw new NotFoundException('The requested user is not found')
+    }
+
+    return user
+  }
+
+  findByUsername(username: string) {
+    const user = this.users.find(user => user.username === username)
 
     if (!user) {
       throw new NotFoundException('The requested user is not found')

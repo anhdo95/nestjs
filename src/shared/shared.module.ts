@@ -5,10 +5,10 @@ import { ConfigService } from "./services/config.service";
 @Global()
 @Module({
   imports: [
-    JwtModule.registerAsync({
-      inject: [ConfigService],
+    /* JwtModule.registerAsync({
+      // inject: [ConfigService],
       useFactory: async (configService: ConfigService) => {
-        console.log('configService', configService)
+        // console.log('configService', configService)
         return {
           secret: "fakesecret",
           signOptions: {
@@ -16,9 +16,10 @@ import { ConfigService } from "./services/config.service";
           }
         }
       }
-    }),
+    }), */
   ],
-  exports: [JwtModule]
+  providers: [ConfigService],
+  // exports: [JwtModule]
 })
 export class SharedModule {
 

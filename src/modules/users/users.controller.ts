@@ -30,7 +30,6 @@ import { JwtAuthGuard } from 'src/guards/jwt-auth.guard';
 @UseFilters(HttpExceptionFilter)
 @UseGuards(JwtAuthGuard)
 @UseInterceptors(TransformInterceptor)
-
 export class UsersController {
   constructor(private usersService: UsersService) {}
 

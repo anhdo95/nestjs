@@ -7,21 +7,22 @@ import { UsersService } from "../users/users.service";
 export class AuthService {
   constructor(private usersService: UsersService, private jwtService: JwtService) {}
 
-  async validateUser(userId: number | string, username: string) {
-    const found = this.usersService.findById(userId)
+  async validateUser(username: string, pw: string) {
+    const found = this.usersService.findByUsername(username)
     
-    if (found && found.username === username) {
-      return found
+    if (found && found.password === pw) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { password, ...result } = found
+
+      return result
     }
 
     return null
   }
 
   async login(user: any) {
-    console.log('user', user)
-    const payload = { username: user.username, sub: user.userId };
     return {
-      accessToken: this.jwtService.sign(payload),
+      accessToken: this.jwtService.sign(user),
     };
   }
 }
