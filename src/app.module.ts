@@ -4,10 +4,21 @@ import { TypeOrmModule } from '@nestjs/typeorm'
 import { UsersModule } from './modules/users/users.module'
 import { SharedModule } from './shared/shared.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { ConfigService } from '@nestjs/config';
 
 @Module({
-  imports: [TypeOrmModule.forRoot({
-    autoLoadEntities: true
+  imports: [TypeOrmModule.forRootAsync({
+    inject: [ConfigService],
+    useFactory: (configService: ConfigService) => ({
+      "type": "mysql",
+      "host": configService.get('MYSQL_HOST'),
+      "port": configService.get('MYSQL_PORT'),
+      "username": configService.get('MYSQL_USERNAME'),
+      "password": configService.get('MYSQL_PASSWORD'),
+      "database": configService.get('MYSQL_DATABASE'),
+      "entities": [__dirname + "/**/*.entity{ .ts,.js}"],
+      "synchronize": true
+    })
   }), SharedModule, AuthModule, UsersModule],
 })
 export class AppModule {}

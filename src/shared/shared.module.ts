@@ -1,10 +1,14 @@
 import { Module, Global } from "@nestjs/common";
 import { JwtModule } from "@nestjs/jwt";
+import { ConfigModule } from '@nestjs/config'
 import { ConfigService } from "./services/config.service";
 
 @Global()
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal: true
+    })
     /* JwtModule.registerAsync({
       // inject: [ConfigService],
       useFactory: async (configService: ConfigService) => {
@@ -18,7 +22,7 @@ import { ConfigService } from "./services/config.service";
       }
     }), */
   ],
-  providers: [ConfigService],
+  providers: [],
   // exports: [JwtModule]
 })
 export class SharedModule {
