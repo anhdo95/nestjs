@@ -8,13 +8,15 @@ import {
   UsePipes,
   ValidationPipe,
   Body,
+  Param,
+  ParseIntPipe,
 } from '@nestjs/common';
 
 import { HttpExceptionFilter } from 'src/filters/http-exception.filter';
 import { TransformInterceptor } from 'src/interceptors/transform.interceptor';
 import { JwtAuthGuard } from 'src/guards/jwt-auth.guard';
 import { EventsService } from './events.service';
-import { Event } from 'src/shared/interfaces/event'
+import { Event } from 'src/database/mongo-entities/event.entity'
 
 @Controller('events')
 @UseFilters(HttpExceptionFilter)
@@ -28,28 +30,14 @@ export class EventsController {
     return this.eventsService.findAll();
   }
 
-  // @Get(':id')
-  // @Roles('SuperAdmin')
-  // findById(@Param('id', ParseIntPipe) id: number) {
-  //   return this.usersService.findById(id);
-  // }
+  @Get(':id')
+  findById(@Param('id', ParseIntPipe) id: number) {
+    return this.eventsService.findById(id);
+  }
 
   @Post()
   @UsePipes(ValidationPipe)
   create(@Body() createEventDto: Event) {
     return this.eventsService.create(createEventDto);
   }
-
-  // @Put(':id')
-  // @UsePipes(ValidationPipe)
-  // @Roles('SuperAdmin')
-  // update(@Param('id') id: number, @Body() updateUserDto: CreateUserDto) {
-  //   return this.usersService.update(id, updateUserDto);
-  // }
-
-  // @Delete(':id')
-  // @Roles('SuperAdmin')
-  // delete(@Param('id') id: string) {
-  //   return this.usersService.delete(id);
-  // }
 }

@@ -1,20 +1,21 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
-import { Event } from 'src/shared/interfaces/event'
+import { InjectRepository } from '@nestjs/typeorm';
+import { Event } from 'src/database/mongo-entities/event.entity';
+import { Repository } from 'typeorm';
+import { APP_CONFIG } from 'src/shared/constants';
 
 @Injectable()
 export class EventsService {
   constructor(
-    @InjectModel('Event') private readonly eventModel: Model<Event>,
+    @InjectRepository(Event, APP_CONFIG.DB.WRITE) private readonly eventRepository: Repository<Event>,
   ) {}
 
   findAll() {
-    return this.eventModel.find().exec()
+    return this.eventRepository.find()
   }
 
   async findById(id: number | string) {
-    const event = await this.eventModel.findById(id).exec();
+    const event = await this.eventRepository.findOne(id)
 
     if (!event) {
       throw new NotFoundException('The requested event is not found');
@@ -24,8 +25,8 @@ export class EventsService {
   }
 
   create(createEventDto: Event) {
-    const event = new this.eventModel(createEventDto)
+    const event = this.eventRepository.create(createEventDto)
 
-    return event.save()
+    return this.eventRepository.save(event)
   }
 }

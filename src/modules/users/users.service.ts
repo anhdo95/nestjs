@@ -3,11 +3,12 @@ import { User } from 'src/database/entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user-dto';
+import { APP_CONFIG } from 'src/shared/constants';
 
 @Injectable()
 export class UsersService {
   constructor(
-    @InjectRepository(User) private userRepository: Repository<User>,
+    @InjectRepository(User, APP_CONFIG.DB.READ) private userRepository: Repository<User>,
   ) {}
 
   findAll() {

@@ -1,4 +1,5 @@
 import { PrimaryGeneratedColumn, Column, Entity, Unique } from "typeorm"
+import { IsString, MaxLength } from "class-validator"
 
 export enum RoleType {
   MEMBER = 1,
@@ -21,12 +22,15 @@ export class Role {
   id: number
 
   @Column()
+  @IsString()
+  @MaxLength(50)
   name: string
 
   @Column({
     type: 'enum',
     enum: RoleType
   })
+  @IsString()
   type: string
 
   @Column({
@@ -34,5 +38,5 @@ export class Role {
     enum: RoleStatus,
     default: RoleStatus.ACTIVE
   })
-  status: boolean
+  status: RoleStatus = RoleStatus.ACTIVE
 }

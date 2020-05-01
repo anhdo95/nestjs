@@ -1,7 +1,6 @@
 import {
   Controller,
   Get,
-  HttpCode,
   Post,
   Put,
   Redirect,
@@ -17,7 +16,6 @@ import {
 } from '@nestjs/common';
 
 import { User } from 'src/database/entities/user.entity';
-import { ActiveUserDto } from './dto/active-user.dto';
 import { CreateUserDto } from './dto/create-user-dto';
 import { UsersService } from './users.service';
 import { HttpExceptionFilter } from 'src/filters/http-exception.filter';

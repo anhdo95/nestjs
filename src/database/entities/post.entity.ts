@@ -37,7 +37,7 @@ export class Post {
     enum: PostStatus,
     default: PostStatus.ACTIVE
   })
-  status: boolean
+  status: PostStatus
 
   @OneToOne(() => User, user => user.id)
   userId: number
