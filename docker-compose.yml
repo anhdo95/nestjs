@@ -1,7 +1,7 @@
 version: '3.1'
 
 services: 
-  db:
+  mysql:
     image: mysql:8
     command: --default-authentication-plugin=mysql_native_password
     environment:
@@ -9,3 +9,20 @@ services:
       MYSQL_ROOT_PASSWORD: 123456
     ports:
       - 3306:3306
+
+  mongo:
+    image: mongo:4.2
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: nestjs
+      MONGO_INITDB_ROOT_PASSWORD: 123456
+      MONGO_INITDB_DATABASE: nestjs_test
+    ports:
+      - 27017:27017
+    volumes:
+      - ./data/mongo/001_users.js:/docker-entrypoint-initdb.d/001_users.js:ro
+      - mongodb:/data/db
+      - mongodb_config:/data/configdb
+
+volumes:
+  mongodb:
+  mongodb_config:
