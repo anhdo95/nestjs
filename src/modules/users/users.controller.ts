@@ -15,6 +15,8 @@ import {
   UseGuards,
   Query,
   ParseArrayPipe,
+  CacheKey,
+  CacheTTL,
 } from '@nestjs/common';
 
 import { User } from 'src/database/entities/user.entity';
@@ -46,6 +48,8 @@ export class UsersController {
   }
 
   @Get('docs')
+  @CacheKey('docs')
+  @CacheTTL(60 * 60 * 24 * 7) // 1 week
   @Redirect('https://docs.nestjs.com', 302)
   getDocs() {}
 
@@ -55,11 +59,13 @@ export class UsersController {
   }
 
   @Get('search')
+  @CacheTTL(60 * 60) // 1h
   findByIds(@Query('ids', new ParseArrayPipe({ items: Number, separator: ',' })) ids: number[]) {
     return this.usersService.findByIds(ids)
   }
 
   @Get(':id')
+  @CacheTTL(60 * 60) // 1h
   @Roles('SuperAdmin')
   findById(@Param('id', ParseIntPipe) id: number) {
     return this.usersService.findById(id);
