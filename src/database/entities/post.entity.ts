@@ -1,16 +1,16 @@
-import { PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, Column, Entity, OneToOne } from "typeorm"
+import { PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, Column, Entity, OneToOne, JoinColumn } from "typeorm"
 import { User } from "./user.entity"
 
 export enum PostType {
-  PHOTO = 1,
-  MUSIC = 2,
-  VIDEO = 3,
-  PRODUCT = 4
+  PHOTO = 'PHOTO',
+  MUSIC = 'MUSIC',
+  VIDEO = 'VIDEO',
+  PRODUCT = 'PRODUCT'
 }
 
 export enum PostStatus {
-  ACTIVE = 1,
-  INACTIVE = 0
+  ACTIVE = 'ACTIVE',
+  INACTIVE = 'INACTIVE'
 }
 
 @Entity()
@@ -40,7 +40,8 @@ export class Post {
   status: PostStatus
 
   @OneToOne(() => User, user => user.id)
-  userId: number
+  @JoinColumn()
+  user: User
 
   @CreateDateColumn()
   createdAt: Date

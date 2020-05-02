@@ -7,6 +7,7 @@ import { SharedModule } from './shared/shared.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { ConfigService } from '@nestjs/config';
 import { APP_CONFIG } from './shared/constants';
+import { PostsModule } from './modules/posts/posts.module';
 
 @Module({
   imports: [
@@ -43,6 +44,7 @@ import { APP_CONFIG } from './shared/constants';
     AuthModule,
     UsersModule,
     EventsModule,
+    PostsModule,
   ],
 })
 export class AppModule {}

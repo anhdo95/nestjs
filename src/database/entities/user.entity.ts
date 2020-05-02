@@ -1,4 +1,4 @@
-import { PrimaryGeneratedColumn, Column, Entity, CreateDateColumn, UpdateDateColumn, OneToMany, Unique, ManyToOne, ManyToMany } from "typeorm"
+import { PrimaryGeneratedColumn, Column, Entity, CreateDateColumn, UpdateDateColumn, OneToMany, Unique, ManyToOne, ManyToMany, JoinColumn } from "typeorm"
 import { Exclude, Expose, Transform } from "class-transformer"
 import { Role } from "./role.entity"
 import { IsNumber, IsInt } from "class-validator"
@@ -28,6 +28,7 @@ export class User {
   active: boolean
 
   @ManyToOne(() => Role, role => role.id)
+  @JoinColumn()
   @Transform(role => role.type)
   role: Role
 
