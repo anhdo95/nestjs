@@ -1,4 +1,4 @@
-import { IsString, IsInt, IsAlphanumeric, IsIn } from 'class-validator'
+import { IsString, IsInt, IsAlphanumeric, IsNotEmpty } from 'class-validator'
 
 export class CreateUserDto {
   @IsString()
@@ -6,6 +6,7 @@ export class CreateUserDto {
   username: string
 
   @IsString()
+  @IsNotEmpty()
   password: string
 
   @IsString()

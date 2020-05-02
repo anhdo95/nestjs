@@ -31,7 +31,7 @@ export class EventsController {
   }
 
   @Get(':id')
-  findById(@Param('id', ParseIntPipe) id: number) {
+  findById(@Param('id') id: number) {
     return this.eventsService.findById(id);
   }
 

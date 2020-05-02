@@ -13,6 +13,8 @@ import {
   ValidationPipe,
   UseInterceptors,
   UseGuards,
+  Query,
+  ParseArrayPipe,
 } from '@nestjs/common';
 
 import { User } from 'src/database/entities/user.entity';
@@ -52,6 +54,11 @@ export class UsersController {
     return user
   }
 
+  @Get('search')
+  findByIds(@Query('ids', new ParseArrayPipe({ items: Number, separator: ',' })) ids: number[]) {
+    return this.usersService.findByIds(ids)
+  }
+
   @Get(':id')
   @Roles('SuperAdmin')
   findById(@Param('id', ParseIntPipe) id: number) {
@@ -59,7 +66,7 @@ export class UsersController {
   }
 
   @Post()
-  @UsePipes(ValidationPipe)
+  @UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
   @Roles('SuperAdmin')
   create(@Body() createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto);

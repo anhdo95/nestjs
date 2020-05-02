@@ -29,6 +29,10 @@ export class UsersService {
     return user;
   }
 
+  findByIds(ids: number[]) {
+    return this.userRepository.findByIds(ids);
+  }
+
   async findByUsername(username: string) {
     const user = await this.userRepository.findOne({ username });
 

@@ -1,6 +1,7 @@
 import { PrimaryGeneratedColumn, Column, Entity, CreateDateColumn, UpdateDateColumn, OneToMany, Unique } from "typeorm"
 import { Exclude } from "class-transformer"
 import { Role } from "./role.entity"
+import { IsNumber, IsInt } from "class-validator"
 
 @Entity()
 @Unique(['username'])
@@ -20,6 +21,7 @@ export class User {
   name: string
 
   @Column()
+  @IsInt()
   age: number
 
   @Column({ default: true })
