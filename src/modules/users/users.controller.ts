@@ -17,6 +17,7 @@ import {
   ParseArrayPipe,
   CacheKey,
   CacheTTL,
+  ClassSerializerInterceptor,
 } from '@nestjs/common';
 
 import { User } from 'src/database/entities/user.entity';
@@ -31,7 +32,7 @@ import { JwtAuthGuard } from 'src/guards/jwt-auth.guard';
 @Controller('users')
 @UseFilters(HttpExceptionFilter)
 @UseGuards(JwtAuthGuard)
-@UseInterceptors(TransformInterceptor)
+@UseInterceptors(TransformInterceptor, ClassSerializerInterceptor)
 export class UsersController {
   constructor(private usersService: UsersService) {}
 
