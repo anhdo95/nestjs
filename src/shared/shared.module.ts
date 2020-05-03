@@ -20,7 +20,7 @@ import { MulterModule } from "@nestjs/platform-express";
           dest: configService.get('DEFAULT_UPLOAD_DEST')
         }
       },
-    })
+    }),
     /* JwtModule.registerAsync({
       // inject: [ConfigService],
       useFactory: async (configService: ConfigService) => {

@@ -1,15 +1,17 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { APP_CONFIG, CRON_JOB } from 'src/shared/constants';
 import { Post } from 'src/database/entities/post.entity';
 import { CreatePostDto } from './dto/create-post-dto';
 import { Cron, CronExpression } from '@nestjs/schedule';
+import { ClientProxy } from '@nestjs/microservices';
 
 @Injectable()
 export class PostsService {
   constructor(
     @InjectRepository(Post, APP_CONFIG.DB.READ) private postRepository: Repository<Post>,
+    // @Inject('POSTS_SERVICE') private client: ClientProxy
   ) {}
 
   findAll() {
