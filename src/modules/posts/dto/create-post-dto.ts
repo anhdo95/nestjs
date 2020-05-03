@@ -1,4 +1,4 @@
-import { IsString } from 'class-validator'
+import { IsString, IsOptional } from 'class-validator'
 import { User } from 'src/database/entities/user.entity'
 
 export class CreatePostDto {
@@ -7,6 +7,10 @@ export class CreatePostDto {
 
   @IsString()
   description: string
+
+  @IsOptional()
+  @IsString()
+  thumbnailPath: string
 
   user: User
 }

@@ -1,4 +1,4 @@
-import { PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, Column, Entity, OneToOne, JoinColumn } from "typeorm"
+import { PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, Column, Entity, OneToOne, JoinColumn, Unique } from "typeorm"
 import { User } from "./user.entity"
 
 export enum PostType {
@@ -14,6 +14,7 @@ export enum PostStatus {
 }
 
 @Entity()
+@Unique(['title'])
 export class Post {
 
   @PrimaryGeneratedColumn()
@@ -31,6 +32,9 @@ export class Post {
 
   @Column()
   description: string
+
+  @Column()
+  thumbnailPath: string
 
   @Column({
     type: 'enum',

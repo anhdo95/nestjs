@@ -8,3 +8,7 @@ export const APP_CONFIG = {
     READ: 'DB_READ'
   }
 }
+
+export const CRON_JOB = {
+  SCRAP_INSTAGRAM_POSTS: 'SCRAP_INSTAGRAM_POSTS'
+}
